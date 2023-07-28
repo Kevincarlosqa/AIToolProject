@@ -4,8 +4,8 @@ import { UserButton } from "@clerk/nextjs";
 const DashboardPage = () => {
   return (
     <>
-      <p className="text-6xl text-green-600">DashBoard(protected)</p>
-      <UserButton afterSignOutUrl="/" />
+      <p className="">DashBoard(protected)</p>
+      {/* <UserButton afterSignOutUrl="/" /> */}
     </>
   );
 };
