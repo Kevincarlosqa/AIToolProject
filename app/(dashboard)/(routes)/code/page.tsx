@@ -23,6 +23,7 @@ import BotAvatar from "@/components/bot-avatar";
 
 const CodePage = () => {
   const router = useRouter();
+  // const proModal = useProModal();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -42,17 +43,21 @@ const CodePage = () => {
       };
       const newMessages = [...messages, userMessage];
 
-      const response = await axios.post("api/code", {
-        messages: newMessages,
-      });
+      const response = await axios.post("/api/code", { messages: newMessages });
       setMessages((current) => [...current, userMessage, response.data]);
+
+      form.reset();
     } catch (error: any) {
-      // TODO: Open Pro Modal
-      console.log(error);
+      if (error?.response?.status === 403) {
+        // proModal.onOpen();
+      } else {
+        // toast.error("Something went wrong.");
+      }
     } finally {
       router.refresh();
     }
   };
+
   return (
     <div>
       <Heading
@@ -67,8 +72,18 @@ const CodePage = () => {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="rounded-lg border w-full p-4 px-3 md:px-6
-              focus-within:shadow-sm grid grid-cols-12 gap-2"
+              className="
+                rounded-lg 
+                border 
+                w-full 
+                p-4 
+                px-3 
+                md:px-6 
+                focus-within:shadow-sm
+                grid
+                grid-cols-12
+                gap-2
+              "
             >
               <FormField
                 name="prompt"
@@ -87,7 +102,9 @@ const CodePage = () => {
               />
               <Button
                 className="col-span-12 lg:col-span-2 w-full"
+                type="submit"
                 disabled={isLoading}
+                size="icon"
               >
                 Generate
               </Button>
@@ -101,7 +118,7 @@ const CodePage = () => {
             </div>
           )}
           {messages.length === 0 && !isLoading && (
-            <Empty label="No conversation started" />
+            <Empty label="No conversation started." />
           )}
           <div className="flex flex-col-reverse gap-y-4">
             {messages.map((message) => (
@@ -117,12 +134,14 @@ const CodePage = () => {
                 {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
                 <ReactMarkdown
                   components={{
-                    pre: ({ node, ...props }) => {
-                      <div className="overflow-auto w-full my-2 bg-black/10 p-2 rounded-lg"></div>;
-                    },
-                    code: ({ node, ...props }) => {
-                      <code className="bg-black/10 rounded-lg p-1" />;
-                    },
+                    pre: ({ node, ...props }) => (
+                      <div className="overflow-auto w-full my-2 bg-black/10 p-2 rounded-lg">
+                        <pre {...props} />
+                      </div>
+                    ),
+                    code: ({ node, ...props }) => (
+                      <code className="bg-black/10 rounded-lg p-1" {...props} />
+                    ),
                   }}
                   className="text-sm overflow-hidden leading-7"
                 >

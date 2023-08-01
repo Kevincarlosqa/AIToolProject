@@ -13,7 +13,6 @@ import { formSchema } from "./constants";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { ChatCompletionRequestMessage } from "openai";
 import { Empty } from "@/components/empty";
 import Loader from "@/components/loader";
 import { cn } from "@/lib/utils";
@@ -22,8 +21,6 @@ import BotAvatar from "@/components/bot-avatar";
 
 const ImagePage = () => {
   const router = useRouter();
-  const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
