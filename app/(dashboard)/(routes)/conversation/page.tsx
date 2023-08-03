@@ -49,6 +49,7 @@ const ConversationPage = () => {
       // TODO: Open Pro Modal
       console.log(error);
     } finally {
+      // Refrezca todos los componentes de servidor
       router.refresh();
     }
   };
