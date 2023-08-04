@@ -1,13 +1,13 @@
 import LandingContent from "@/components/landing-content";
 import LandingHero from "@/components/landing-hero";
 import { LandingNavbar } from "@/components/landing-navbar";
-
 const LandingPage = () => {
   return (
-    <div className="h-full">
+    <div className="absolute top-0 flex flex-col mx-auto right-0 left-0">
       <LandingNavbar />
       <LandingHero />
-      <LandingContent />
+      {/* <Lottie animationData={world} /> */}
+      {/* <LandingContent /> */}
     </div>
   );
 };
