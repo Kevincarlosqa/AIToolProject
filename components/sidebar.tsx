@@ -72,9 +72,15 @@ const Sidebar = ({ apiLimitCount = 0, isPro = false }: SidebarProps) => {
     <div className="space-y-4 py-4 flex flex-col h-full bg-[#111827] text-white">
       <div className="px-3 py-2 flex-1">
         <Link href="/dashboard" className="flex items-center pl-3 mb-14">
-          <div className="relative w-[150px] h-10 mr-4">
-            <Image width={300} height={300} alt="Logo" src="/logo-ia.png" />
+          <div className="relative h-10 w-10 mr-4">
+            <Image
+              fill
+              alt="Logo"
+              src="/logos.png"
+              className="bg-white rounded-full"
+            />
           </div>
+          <h1 className={cn("text-2xl font-bold text-white")}>AIGearHub</h1>
         </Link>
         <div className="space-y-1">
           {routes.map((route) => (
@@ -97,6 +103,9 @@ const Sidebar = ({ apiLimitCount = 0, isPro = false }: SidebarProps) => {
         </div>
       </div>
       <FreeCounter isPro={isPro} apiLimitCount={apiLimitCount} />
+      <h1 className="text-center">
+        Build with ♥ by <span className="font-bold">KevincarlosQA</span>
+      </h1>
     </div>
   );
 };
