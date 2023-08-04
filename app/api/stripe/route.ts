@@ -11,6 +11,7 @@ export async function GET() {
   try {
     const { userId } = auth();
     const user = await currentUser();
+
     if (!userId || !user) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
@@ -36,13 +37,13 @@ export async function GET() {
       payment_method_types: ["card"],
       mode: "subscription",
       billing_address_collection: "auto",
-      customer_email: user.emailAddresses[0],
+      customer_email: user.emailAddresses[0].emailAddress,
       line_items: [
         {
           price_data: {
             currency: "USD",
             product_data: {
-              name: "AITools Pro",
+              name: "AI Tools Pro",
               description: "Unlimited AI Generations",
             },
             unit_amount: 2000,
@@ -61,6 +62,6 @@ export async function GET() {
     return new NextResponse(JSON.stringify({ url: stripeSession.url }));
   } catch (error) {
     console.log("[STRIPE_ERROR]", error);
-    return new NextResponse("Internal error", { status: 500 });
+    return new NextResponse("Internal Error", { status: 500 });
   }
 }
